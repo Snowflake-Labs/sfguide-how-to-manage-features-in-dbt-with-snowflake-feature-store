@@ -87,13 +87,13 @@ def model(dbt, session):
         df_date_time_feat.col("CUSTOMER_ID").as_("CUSTOMER_ID"), df_date_time_feat.col("TX_DATETIME").as_("EVENT_TIMESTAMP"),
         (zero_if_null(df_cust_feat_day.col("CUST_TX_PREV_1")) + F.col("CUR_DAY_TRX")).as_("CUST_CNT_TX_1"),
         (zero_if_null(df_cust_feat_day.col("CUST_TOT_AMT_PREV_1")) + F.col("CUR_DAY_AMT")).as_("CUST_TOT_AMOUNT_1"),
-        (zero_if_null((df_cust_feat_day.col("CUST_TOT_AMT_PREV_1")) + F.col("CUR_DAY_AMT")) / F.col("CUST_CNT_TX_1")).as_("CUST_AVG_AMOUNT_1"),
+        ((zero_if_null(df_cust_feat_day.col("CUST_TOT_AMT_PREV_1")) + F.col("CUR_DAY_AMT")) / (zero_if_null(df_cust_feat_day.col("CUST_TX_PREV_1")) + F.col("CUR_DAY_TRX"))).as_("CUST_AVG_AMOUNT_1"),
         (zero_if_null(df_cust_feat_day.col("CUST_TX_PREV_7")) + F.col("CUR_DAY_TRX")).as_("CUST_CNT_TX_7"),
         (zero_if_null(df_cust_feat_day.col("CUST_TOT_AMT_PREV_7")) + F.col("CUR_DAY_AMT")).as_("CUST_TOT_AMOUNT_7"),
-        (zero_if_null((df_cust_feat_day.col("CUST_TOT_AMT_PREV_7")) + F.col("CUR_DAY_AMT")) / F.col("CUST_CNT_TX_7")).as_("CUST_AVG_AMOUNT_7"),
+        ((zero_if_null(df_cust_feat_day.col("CUST_TOT_AMT_PREV_7")) + F.col("CUR_DAY_AMT")) / (zero_if_null(df_cust_feat_day.col("CUST_TX_PREV_7")) + F.col("CUR_DAY_TRX"))).as_("CUST_AVG_AMOUNT_7"),
         (zero_if_null(df_cust_feat_day.col("CUST_TX_PREV_30")) + F.col("CUR_DAY_TRX")).as_("CUST_CNT_TX_30"),
         (zero_if_null(df_cust_feat_day.col("CUST_TOT_AMT_PREV_30")) + F.col("CUR_DAY_AMT")).as_("CUST_TOT_AMOUNT_30"),
-        (zero_if_null((df_cust_feat_day.col("CUST_TOT_AMT_PREV_30")) + F.col("CUR_DAY_AMT")) / F.col("CUST_CNT_TX_30")).as_("CUST_AVG_AMOUNT_30")
+        ((zero_if_null(df_cust_feat_day.col("CUST_TOT_AMT_PREV_30")) + F.col("CUR_DAY_AMT")) / (zero_if_null(df_cust_feat_day.col("CUST_TX_PREV_30")) + F.col("CUR_DAY_TRX"))).as_("CUST_AVG_AMOUNT_30")
     ) 
 
     df_cust_behaviour_feat = df_cust_behaviour_feat.select(
